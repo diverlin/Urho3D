@@ -28,8 +28,8 @@ platform:
 clone_depth: 50
 cache:
   # Cache the MinGW compiler toolchains so that our CI builds do not chalk up their download stats
-  - C:\tools\mingw32
-  - C:\tools\mingw64
+  - C:\tools\r3-10.2.0-7.0.0\mingw32
+  - C:\tools\r3-10.2.0-7.0.0\mingw64
 environment:
   GIT_NAME:
     secure: JatNbOZZZKMvMHL8sRq9XpHgESzJ13eh9NHbMK99rX8=
