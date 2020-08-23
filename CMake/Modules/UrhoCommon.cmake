@@ -1185,21 +1185,23 @@ macro (enable_pch HEADER_PATHNAME)
                         # Only generate it once so that its timestamp is not touched unnecessarily
                         file (WRITE ${CMAKE_CURRENT_BINARY_DIR}/${${LANG}_FILENAME} "// This is a generated file. DO NOT EDIT!\n\n#include \"${HEADER_FILENAME}\"")
                     endif ()
-                    target_sources (${TARGET_NAME} PRIVATE ${${LANG}_FILENAME})
+                    set (${LANG}_FILENAME ${CMAKE_CURRENT_BINARY_DIR}/${${LANG}_FILENAME})
+                    source_group ("Source Files\\Generated" FILES ${${LANG}_FILENAME})
+                else ()
+                    set (${LANG}_FILENAME ${PATH}${${LANG}_FILENAME})
                 endif ()
-                source_group ("Source Files\\Generated" FILES ${${LANG}_FILENAME})
                 if (VS)
                     # VS is multi-config, the exact path is only known during actual build time based on effective build config
                     set (PCH_PATHNAME "$(IntDir)${PCH_FILENAME}")
                 else ()
                     set (PCH_PATHNAME ${CMAKE_CURRENT_BINARY_DIR}/${PCH_FILENAME})
                 endif ()
+                # Precompiling header file
+                target_sources (${TARGET_NAME} PRIVATE ${${LANG}_FILENAME})
+                set_property (SOURCE ${${LANG}_FILENAME} APPEND_STRING PROPERTY COMPILE_FLAGS " /Fp${PCH_PATHNAME} /Yc${HEADER_FILENAME}")     # Need a leading space for appending
                 foreach (FILE ${SOURCE_FILES})
                     if (FILE MATCHES \\.${EXT}$)
-                        if (FILE MATCHES ${NAME_WE}\\.${EXT}$)
-                            # Precompiling header file
-                            set_property (SOURCE ${FILE} APPEND_STRING PROPERTY COMPILE_FLAGS " /Fp${PCH_PATHNAME} /Yc${HEADER_FILENAME}")     # Need a leading space for appending
-                        else ()
+                        if (NOT FILE MATCHES ${NAME_WE}\\.${EXT}$)
                             # Using precompiled header file
                             set_property (SOURCE ${FILE} APPEND_STRING PROPERTY COMPILE_FLAGS " /Fp${PCH_PATHNAME} /Yu${HEADER_FILENAME} /FI${HEADER_FILENAME}")
                         endif ()
