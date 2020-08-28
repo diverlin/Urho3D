@@ -269,7 +269,7 @@ void ParticleEmitter2D::UpdateSourceBatches()
 void ParticleEmitter2D::UpdateMaterial()
 {
     if (sprite_ && renderer_)
-        sourceBatches_[0].material_ = renderer_->GetMaterial(sprite_->GetTexture(), blendMode_);
+        sourceBatches_[0].material_ = renderer_->GetMaterial(sprite_->GetTexture(), blendMode_, customPassNameSuffix_);
     else
         sourceBatches_[0].material_ = nullptr;
 }

@@ -240,7 +240,7 @@ void Renderer2D::RemoveDrawable(Drawable2D* drawable)
     drawables_.Remove(drawable);
 }
 
-Material* Renderer2D::GetMaterial(Texture2D* texture, BlendMode blendMode)
+Material* Renderer2D::GetMaterial(Texture2D* texture, BlendMode blendMode, const String& passNameSuffix)
 {
     if (!texture)
         return material_;
@@ -248,7 +248,7 @@ Material* Renderer2D::GetMaterial(Texture2D* texture, BlendMode blendMode)
     HashMap<Texture2D*, HashMap<int, SharedPtr<Material> > >::Iterator t = cachedMaterials_.Find(texture);
     if (t == cachedMaterials_.End())
     {
-        SharedPtr<Material> newMaterial = CreateMaterial(texture, blendMode);
+        SharedPtr<Material> newMaterial = CreateMaterial(texture, blendMode, passNameSuffix);
         cachedMaterials_[texture][blendMode] = newMaterial;
         return newMaterial;
     }
@@ -258,7 +258,7 @@ Material* Renderer2D::GetMaterial(Texture2D* texture, BlendMode blendMode)
     if (b != materials.End())
         return b->second_;
 
-    SharedPtr<Material> newMaterial = CreateMaterial(texture, blendMode);
+    SharedPtr<Material> newMaterial = CreateMaterial(texture, blendMode, passNameSuffix);
     materials[blendMode] = newMaterial;
 
     return newMaterial;
@@ -280,7 +280,7 @@ void Renderer2D::OnWorldBoundingBoxUpdate()
     worldBoundingBox_ = boundingBox_;
 }
 
-SharedPtr<Material> Renderer2D::CreateMaterial(Texture2D* texture, BlendMode blendMode)
+SharedPtr<Material> Renderer2D::CreateMaterial(Texture2D* texture, BlendMode blendMode, const String& passNameSuffix)
 {
     SharedPtr<Material> newMaterial = material_->Clone();
 
@@ -288,7 +288,7 @@ SharedPtr<Material> Renderer2D::CreateMaterial(Texture2D* texture, BlendMode ble
     if (techIt == cachedTechniques_.End())
     {
         SharedPtr<Technique> tech(new Technique(context_));
-        Pass* pass = tech->CreatePass("alpha");
+        Pass* pass = tech->CreatePass("alpha"+passNameSuffix);
         pass->SetVertexShader("Urho2D");
         pass->SetPixelShader("Urho2D");
         pass->SetDepthWrite(false);

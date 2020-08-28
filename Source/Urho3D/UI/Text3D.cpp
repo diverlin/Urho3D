@@ -649,7 +649,7 @@ void Text3D::UpdateTextMaterials(bool forceUpdate)
             {
                 auto* material = new Material(context_);
                 auto* tech = new Technique(context_);
-                Pass* pass = tech->CreatePass("alpha");
+                Pass* pass = tech->CreatePass("alpha"+customPassNameSuffix_);
                 pass->SetVertexShader("Text");
                 pass->SetPixelShader("Text");
                 pass->SetBlendMode(BLEND_ALPHA);
@@ -674,7 +674,7 @@ void Text3D::UpdateTextMaterials(bool forceUpdate)
             if (!material_)
             {
                 Technique* tech = material->GetTechnique(0);
-                Pass* pass = tech ? tech->GetPass("alpha") : nullptr;
+                Pass* pass = tech ? tech->GetPass("alpha"+customPassNameSuffix_) : nullptr;
                 if (pass)
                 {
                     switch (GetTextEffect())
@@ -719,7 +719,7 @@ void Text3D::UpdateTextMaterials(bool forceUpdate)
             if (!material_)
             {
                 Technique* tech = material->GetTechnique(0);
-                Pass* pass = tech ? tech->GetPass("alpha") : nullptr;
+                Pass* pass = tech ? tech->GetPass("alpha"+customPassNameSuffix_) : nullptr;
                 if (pass)
                 {
                     if (texture && texture->GetFormat() == Graphics::GetAlphaFormat())

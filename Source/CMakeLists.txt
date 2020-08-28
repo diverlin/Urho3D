@@ -147,7 +147,7 @@ endif ()
 add_subdirectory (Tools)
 
 # Urho3D samples
-add_subdirectory (Samples)
+#add_subdirectory (Samples)
 
 # Urho3D extras
 if (URHO3D_EXTRAS)

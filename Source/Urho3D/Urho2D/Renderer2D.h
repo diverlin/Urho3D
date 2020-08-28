@@ -93,7 +93,7 @@ public:
     /// Remove Drawable2D.
     void RemoveDrawable(Drawable2D* drawable);
     /// Return material by texture and blend mode.
-    Material* GetMaterial(Texture2D* texture, BlendMode blendMode);
+    Material* GetMaterial(Texture2D* texture, BlendMode blendMode, const String& passNameSuffix="");
 
     /// Check visibility.
     bool CheckVisibility(Drawable2D* drawable) const;
@@ -102,7 +102,7 @@ private:
     /// Recalculate the world-space bounding box.
     void OnWorldBoundingBoxUpdate() override;
     /// Create material by texture and blend mode.
-    SharedPtr<Material> CreateMaterial(Texture2D* texture, BlendMode blendMode);
+    SharedPtr<Material> CreateMaterial(Texture2D* texture, BlendMode blendMode, const String& passNameSuffix="");
     /// Handle view update begin event. Determine Drawable2D's and their batches here.
     void HandleBeginViewUpdate(StringHash eventType, VariantMap& eventData);
     /// Get all drawables in node.

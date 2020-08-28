@@ -121,6 +121,9 @@ public:
     /// Return whether is currently emitting.
     bool IsEmitting() const { return emitting_; }
 
+    ///
+    void SetCustomPassNameSuffix(const String& customPassNameSuffix) { customPassNameSuffix_ = customPassNameSuffix; }
+
 private:
     /// Handle scene being assigned.
     void OnSceneSet(Scene* scene) override;
@@ -161,6 +164,8 @@ private:
     Vector3 boundingBoxMinPoint_;
     /// Bounding box max point.
     Vector3 boundingBoxMaxPoint_;
+    ///
+    String customPassNameSuffix_;
 };
 
 }

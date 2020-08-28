@@ -100,6 +100,8 @@ public:
     void SetFixedScreenSize(bool enable);
     /// Set how the text should rotate in relation to the camera. Default is to not rotate (FC_NONE).
     void SetFaceCameraMode(FaceCameraMode mode);
+    /// Set custom pass name suffix
+    void SetCustomPassNameSuffix(const String& suffix) { customPassNameSuffix_ = suffix; }
 
     /// Return font.
     Font* GetFont() const;
@@ -214,6 +216,8 @@ protected:
     bool usingSDFShader_;
     /// Font texture data lost flag.
     bool fontDataLost_;
+    /// Pass name custom suffix
+    String customPassNameSuffix_;
 };
 
 }
